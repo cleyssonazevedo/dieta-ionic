@@ -1,0 +1,40 @@
+<ion-header no-border>
+  <ion-toolbar>
+    <ion-title>Dieta Mobile</ion-title>
+
+    <ion-buttons slot="end">
+      <ion-button icon-only (click)="openAdicionar()">
+        <ion-icon name="add-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="getData().length > 0">
+  <div class="jumbotron">
+    <p text-center>
+      O seu consumo diário nesta(e)
+      {{ getWeek() | week }} é de
+    </p>
+    <div text-center class="jumbotron-body">{{ consumoDiario }} kcal/dia</div>
+  </div>
+
+  <div>
+    <p padding>De acordo com o seu cadastro,você pode consumir hoje:</p>
+
+    <ion-list>
+      <ion-item *ngFor="let item of getData()" (click)="itemSelected(item)">
+        {{ item.prato }} - {{ item.calorias * item.quantidade }} kcal
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="getData().length === 0">
+  <p class="h1" padding text-center>
+    Bem vindo ao Dieta mobile!
+  </p>
+  <p class="h2" padding text-center>
+    Este aplicativo permite ter um controle do consumo de calorias no dia, de acordo com os pratos.
+  </p>
+</ion-content>
