@@ -6,7 +6,7 @@
   "scripts": {
     "ng": "ng",
     "start": "ionic serve",
-    "start:android": "ionic cordova run android -c --livereload --device",
+    "start:android": "ionic cordova run android --livereload --debug --consolelogs --device",
     "build": "ionic cordova build android --aot --optimizejs --minifyjs --minifycss",
     "test": "ng test",
     "lint": "ng lint",

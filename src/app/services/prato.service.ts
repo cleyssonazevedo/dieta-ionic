@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Prato } from '../model/prato';
-import { Observable, from } from 'rxjs';
+import { Observable, from, } from 'rxjs';
+import { filter, defaultIfEmpty } from 'rxjs/operators';
 import { Dieta } from '../model/dieta';
 import { Semana } from '../model/days';
 import { Storage } from '@ionic/storage';
@@ -14,36 +15,25 @@ export class PratoService {
     ) {
         this.dietas = [];
 
-        this.dietas = [
-            /* {
-                prato: 'Arroz e feijão (100g)',
-                calorias: 151,
-                quantidade: 2,
-                domingo: true,
-                terca: true,
-                quinta: true
-            },
-            {
-                prato: 'Batata frita (100g)',
-                calorias: 312,
-                quantidade: 10,
-                domingo: true,
-                terca: true,
-                quinta: true
-            } */
-        ];
+        from(this.storage.get('dietas'))
+            .pipe(
+                filter((dietas) => dietas !== undefined && dietas !== null),
+                defaultIfEmpty([])
+            )
+            .subscribe((dietas) => this.dietas = dietas);
     }
 
     private get list() {
         return this.storage.get('pratos');
     }
 
-    getPratos(): Observable<Prato> {
+    getPratos(): Observable<Prato[]> {
         return from(this.list);
     }
 
     setDieta(dieta: Dieta) {
         this.dietas.push(dieta);
+        this.saveData();
     }
 
     private getDataFromWeek(week?: Semana): Dieta[] {

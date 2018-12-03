@@ -1,13 +1,13 @@
 <ion-header no-border>
     <ion-toolbar>
         <ion-buttons slot="start">
-            <ion-back-button defaultHref="/home"></ion-back-button>
+            <ion-back-button (click)="returnToBack()"></ion-back-button>
         </ion-buttons>
 
         <ion-title>Dieta Mobile</ion-title>
 
         <ion-buttons slot="end">
-            <ion-button>
+            <ion-button (click)="saveData()">
                 Salvar Dados
                 <ion-icon name="checkmark"></ion-icon>
             </ion-button>
@@ -15,17 +15,64 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content *ngIf="pratos">
     <ion-list>
-        <ion-item>
-            <ion-label position="stacked">Escolha um prato</ion-label>
-            <ion-input type="text"></ion-input>
-        </ion-item>
+        <form [formGroup]="dieta" (ngSwitch)="saveData()">
+            <ion-item>
+                <ion-label position="stacked">Escolha um prato</ion-label>
+                <ion-select formControlName="prato" [required]="true">
+                    <ion-select-option *ngFor="let item of pratos" [value]="item.nome">
+                        {{ item.nome }}
+                    </ion-select-option>
+                </ion-select>
+            </ion-item>
 
-        <ion-item>
-            <ion-label position="stacked">Digite a quantidade total, sendo que 1 é igual a 100g</ion-label>
-            <ion-input type="number"></ion-input>
-        </ion-item>
+            <ion-item>
+                <ion-label position="stacked">Digite a quantidade total, sendo que 1 é igual a 100g</ion-label>
+                <ion-input type="number" formControlName="quantidade" name="quantidade" required="true" [min]="1"></ion-input>
+            </ion-item>
 
+            <ion-item>
+                <ion-label>Domingo</ion-label>
+                <ion-checkbox formControlName="domingo"
+                [checked]="dieta.get('domingo').value"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Segunda</ion-label>
+                <ion-checkbox formControlName="segunda"
+                [checked]="dieta.get('segunda').value"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Terça</ion-label>
+                <ion-checkbox formControlName="terca"
+                [checked]="dieta.get('terca').value"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Quarta</ion-label>
+                <ion-checkbox formControlName="quarta"
+                [checked]="dieta.get('quarta').value"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Quinta</ion-label>
+                <ion-checkbox formControlName="quinta"
+                [checked]="dieta.get('quinta').value"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Sexta</ion-label>
+                <ion-checkbox formControlName="sexta"
+                [checked]="dieta.get('sexta').value"></ion-checkbox>
+            </ion-item>
+
+            <ion-item>
+                <ion-label>Sábado</ion-label>
+                <ion-checkbox formControlName="sabado"
+                [checked]="dieta.get('sabado').value"></ion-checkbox>
+            </ion-item>
+        </form>
     </ion-list>
 </ion-content>

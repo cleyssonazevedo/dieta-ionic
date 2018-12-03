@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ModalController, ActionSheetController, AlertController, NavController } from '@ionic/angular';
+import { ActionSheetController, AlertController, NavController } from '@ionic/angular';
 import { PratoService } from 'src/app/services/prato.service';
 import * as moment from 'moment';
 import { Semana } from 'src/app/model/days';
@@ -43,7 +43,7 @@ export class HomeComponent {
     let data;
 
     this.action.create({
-      header: item.prato,
+      header: `${item.prato} (${item.quantidade})`,
       animated: true,
       buttons: [
         {
