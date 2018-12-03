@@ -1,5 +1,6 @@
 # dieta-ionic
 Criação de aplicação para a *Faculdade Sumaré* para conclusão do 5º semestre.
+Ele está rodando com versão mínima de SDK 19 que é a versão Android 4.4
 
 ## Como Rodar
 1. Esse projeto necessita das seguintes dependências:
@@ -16,3 +17,10 @@ Criação de aplicação para a *Faculdade Sumaré* para conclusão do 5º semes
 ``` ionic serve ``` ou ```npm start```
 ou use o comando 
 ```ionic cordova run android``` ou ```npm run start:android```
+
+4. Para criar um APK, rode o comando
+```ionic cordova build android```
+ou
+```npm run build```
+
+No final, ele irá gerar e mostrar o caminho do APK, lembrando que este não é o de PROD, pois precisa de chave da loja Android.
