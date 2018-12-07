@@ -45,6 +45,7 @@ export class HomeComponent {
   }
 
   hasDietas() {
+    console.log(this.service.getData());
     return this.service.getData();
   }
 
@@ -141,5 +142,31 @@ export class HomeComponent {
       default:
         break;
     }
+  }
+
+  limpar() {
+    let alertControl;
+
+    this.alert.create({
+      animated: true,
+      header: `Deseja realmente limpar todo o conteúdo da memória?`,
+      subHeader: `A exclusão é irreversível`,
+      buttons: [
+        {
+          text: 'Cancelar',
+          handler: () => {
+            alertControl.dismiss();
+          }
+        },
+        {
+          text: 'Confirmar',
+          handler: () => {
+            this.service.clear();
+          }
+        }
+      ]
+    })
+      .then((res) => alertControl = res)
+      .then((res) => res.present());
   }
 }

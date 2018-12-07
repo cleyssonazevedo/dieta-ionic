@@ -224,4 +224,8 @@ export class PratoService {
     saveData() {
         this.storage.set('dietas', this.dietas);
     }
+
+    clear() {
+        this.storage.clear();
+    }
 }

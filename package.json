@@ -7,7 +7,7 @@
     "ng": "ng",
     "start": "ionic serve",
     "start:android": "ionic cordova run android --livereload -- --debug --consolelogs --device",
-    "build": "ionic cordova build android --aot --optimizejs --minifyjs --minifycss",
+    "build": "ionic cordova build android --prod -- --aot --optimizejs --minifyjs --minifycss",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
