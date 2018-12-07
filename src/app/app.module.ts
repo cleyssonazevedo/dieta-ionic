@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule, HAMMER_GESTURE_CONFIG } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
@@ -10,6 +10,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { PratoService } from './services/prato.service';
+import { IonicGestureConfigService } from './services/ionic-gesture-config.service';
 
 @NgModule({
   imports: [
@@ -24,7 +25,8 @@ import { PratoService } from './services/prato.service';
     StatusBar,
     SplashScreen,
     PratoService,
-    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
+    { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
+    { provide: HAMMER_GESTURE_CONFIG, useClass: IonicGestureConfigService }
   ],
   bootstrap: [AppComponent]
 })

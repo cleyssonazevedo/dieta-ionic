@@ -1,18 +1,18 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Dieta } from 'src/app/model/dieta';
 import { PratoService } from 'src/app/services/prato.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AlertController, NavController } from '@ionic/angular';
 import { Prato } from 'src/app/model/prato';
 import { Subscription } from 'rxjs';
-import { filter, mapTo, map, defaultIfEmpty } from 'rxjs/operators';
 
 @Component({
     selector: 'dieta',
     templateUrl: './dieta.component.html'
 })
-export class DietaComponent {
+export class DietaComponent implements OnInit {
     private _subscription: Subscription;
+    private _edit: boolean;
 
     pratos: Prato[];
     dieta: FormGroup;
@@ -23,7 +23,6 @@ export class DietaComponent {
         private nav: NavController,
         private builder: FormBuilder
     ) {
-        this.newDieta();
         this.service.getPratos()
             .subscribe((pratos) => {
                 this.pratos = pratos;
@@ -31,24 +30,50 @@ export class DietaComponent {
             });
     }
 
-    private newDieta() {
+    ngOnInit() {
+        if (this.service.getEditDieta() !== undefined) {
+            this.newDieta(this.service.getEditDieta());
+            this._edit = true;
+        } else {
+            this._edit = false;
+            this.newDieta();
+        }
+    }
+
+    private newDieta(dieta?: Dieta) {
         if (this._subscription) {
             this._subscription.unsubscribe();
         }
 
-        this.dieta = this.builder.group({
-            prato: ['', Validators.required],
-            quantidade: [null, [Validators.required, Validators.min(1)]],
-            calorias: [0],
+        if (dieta) {
+            this.dieta = this.builder.group({
+                prato: [ dieta.prato || '', Validators.required],
+                quantidade: [ dieta.quantidade || null, [Validators.required, Validators.min(1)]],
+                calorias: [ dieta.calorias || 0],
 
-            domingo: [false],
-            segunda: [false],
-            terca: [false],
-            quarta: [false],
-            quinta: [false],
-            sexta: [false],
-            sabado: [false],
-        });
+                domingo: [ dieta.domingo || false],
+                segunda: [ dieta.segunda || false],
+                terca: [ dieta.terca || false],
+                quarta: [ dieta.quarta || false],
+                quinta: [ dieta.quinta || false],
+                sexta: [ dieta.sexta || false],
+                sabado: [ dieta.sabado || false],
+            });
+        } else {
+            this.dieta = this.builder.group({
+                prato: ['', Validators.required],
+                quantidade: [null, [Validators.required, Validators.min(1)]],
+                calorias: [0],
+
+                domingo: [false],
+                segunda: [false],
+                terca: [false],
+                quarta: [false],
+                quinta: [false],
+                sexta: [false],
+                sabado: [false],
+            });
+        }
     }
 
     saveData() {
@@ -67,7 +92,12 @@ export class DietaComponent {
             )
         ) {
             dieta.calorias = this.pratos.find((prato) => prato.nome === dieta.prato).calorias;
-            this.service.setDieta(dieta);
+
+            if (this._edit) {
+                this.service.saveEditDieta(dieta);
+            } else {
+                this.service.setDieta(dieta);
+            }
 
             this.alert.create({
                 header: 'Dados Salvos',

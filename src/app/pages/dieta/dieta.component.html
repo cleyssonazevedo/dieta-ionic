@@ -15,9 +15,9 @@
     </ion-toolbar>
 </ion-header>
 
-<ion-content *ngIf="pratos">
+<ion-content *ngIf="pratos && dieta">
     <ion-list>
-        <form [formGroup]="dieta" (ngSwitch)="saveData()">
+        <form [formGroup]="dieta" (ngSubmit)="saveData()">
             <ion-item>
                 <ion-label position="stacked">Escolha um prato</ion-label>
                 <ion-select formControlName="prato" [required]="true">
@@ -28,7 +28,7 @@
             </ion-item>
 
             <ion-item>
-                <ion-label position="stacked">Digite a quantidade total, sendo que 1 é igual a 100g</ion-label>
+                <ion-label position="stacked">Digite a quantidade total consumida por dia em gramas</ion-label>
                 <ion-input type="number" formControlName="quantidade" name="quantidade" required="true" [min]="1"></ion-input>
             </ion-item>
 

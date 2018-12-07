@@ -11,6 +11,9 @@ import { Dieta } from 'src/app/model/dieta';
   styleUrls: ['home.component.scss']
 })
 export class HomeComponent {
+  now: Date;
+  week: Date;
+
   person: {
     user: string;
     password: string;
@@ -29,10 +32,12 @@ export class HomeComponent {
       user: null,
       password: null
     };
+
+    this.week = this.now = moment().toDate();
   }
 
   getWeek(): Semana {
-    return moment().weekday();
+    return moment(this.week).weekday();
   }
 
   getData() {
@@ -49,7 +54,8 @@ export class HomeComponent {
         {
           text: 'Alterar',
           handler: () => {
-            console.log('Alterar');
+            this.service.setEditDieta(item);
+            this.openAdicionar();
           }
         },
         {
@@ -116,5 +122,20 @@ export class HomeComponent {
 
   openAdicionar() {
     this.nav.navigateForward('dieta');
+  }
+
+  changeDate($event) {
+
+    switch ($event.direction) {
+      case 2:
+        this.week = moment(this.week).add(1, 'days').toDate();
+        break;
+      case 4:
+        this.week = moment(this.week).subtract(1, 'days').toDate();
+        break;
+
+      default:
+        break;
+    }
   }
 }

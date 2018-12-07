@@ -13,8 +13,8 @@
 <ion-content *ngIf="getData().length > 0">
   <div class="jumbotron">
     <p text-center>
-      O seu consumo diário nesta(e)
-      {{ getWeek() | week }} é de
+      O seu consumo diário
+      {{ now === week ? 'hoje' : 'nesta(e) ' + (getWeek() | week) }} é de
     </p>
     <div text-center class="jumbotron-body">{{ consumoDiario }} kcal/dia</div>
   </div>
@@ -24,7 +24,7 @@
 
     <ion-list>
       <ion-item *ngFor="let item of getData()" (click)="itemSelected(item)">
-        {{ item.prato }} - {{ item.calorias * item.quantidade }} kcal
+        {{ item.prato }} - {{ item.calorias * (item.quantidade / 100) }} kcal - {{ item.quantidade }}g
       </ion-item>
     </ion-list>
   </div>

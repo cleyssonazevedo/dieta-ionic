@@ -14,42 +14,9 @@ export class AppComponent {
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
-    private statusBar: StatusBar,
-    private storage: Storage
+    private statusBar: StatusBar
   ) {
     this.initializeApp();
-
-    this.storage.get('pratos')
-      .then((data) => {
-        if (data === undefined || data === null) {
-          this.storage.set('pratos', [
-            {
-                nome: 'Arroz e feijão (100g)',
-                calorias: 151
-            },
-            {
-                nome: 'Batata frita (100g)',
-                calorias: 312
-            },
-            {
-                nome: 'Espaguete',
-                calorias: 158
-            },
-            {
-                nome: 'Macarrão com molho à bolonhesa',
-                calorias: 151
-            },
-            {
-                nome: 'Miojo',
-                calorias: 412
-            },
-            {
-                nome: 'Pizza',
-                calorias: 266
-            }
-        ] as Array<Prato>);
-        }
-      });
   }
 
   initializeApp() {

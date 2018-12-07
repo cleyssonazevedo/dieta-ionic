@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Prato } from '../model/prato';
-import { Observable, from, } from 'rxjs';
+import { Observable, from, of, } from 'rxjs';
 import { filter, defaultIfEmpty } from 'rxjs/operators';
 import { Dieta } from '../model/dieta';
 import { Semana } from '../model/days';
@@ -9,6 +9,7 @@ import { Storage } from '@ionic/storage';
 @Injectable()
 export class PratoService {
     private dietas: Dieta[];
+    private _edit: Dieta;
 
     constructor(
         private storage: Storage
@@ -24,11 +25,97 @@ export class PratoService {
     }
 
     private get list() {
-        return this.storage.get('pratos');
+        return [
+            {
+                nome: 'Arroz e feijão (100g)',
+                calorias: 151
+            },
+            {
+                nome: 'Batata frita (100g)',
+                calorias: 312
+            },
+            {
+                nome: 'Espaguete',
+                calorias: 158
+            },
+            {
+                nome: 'Macarrão com molho à bolonhesa',
+                calorias: 151
+            },
+            {
+                nome: 'Miojo',
+                calorias: 412
+            },
+            {
+                nome: 'Pizza',
+                calorias: 266
+            },
+            {
+                nome: 'Feijoada',
+                calorias: 146
+            },
+            {
+                nome: 'Pudim de Pão',
+                calorias: 306
+            },
+            {
+                nome: 'Omelete',
+                calorias: 93
+            },
+            {
+                nome: 'Estrogonofe de Carne',
+                calorias: 394
+            },
+            {
+                nome: 'Salada de Folhas',
+                calorias: 28
+            },
+            {
+                nome: 'Salada de Frutas',
+                calorias: 108
+            },
+            {
+                nome: 'Cuscuz Paulista',
+                calorias: 148
+            },
+            {
+                nome: 'Virada paulista',
+                calorias: 229
+            }
+        ] as Array<Prato>;
+    }
+
+    setEditDieta(dieta: Dieta) {
+        this._edit = dieta;
+    }
+
+    getEditDieta() {
+        return this._edit;
+    }
+
+    saveEditDieta(dieta: Dieta) {
+        let result: boolean;
+
+        const dietas = this.dietas.map((data) => {
+            if (data === this._edit) {
+                result = true;
+                return dieta;
+            } else {
+                return data;
+            }
+        });
+
+        if (result) {
+            this.dietas = dietas;
+            this.saveData();
+            this._edit = undefined;
+        }
+
+        return result;
     }
 
     getPratos(): Observable<Prato[]> {
-        return from(this.list);
+        return of(this.list);
     }
 
     setDieta(dieta: Dieta) {
@@ -70,7 +157,7 @@ export class PratoService {
 
     getCaloriasFromWeek(week?: Semana) {
         return this.getDataFromWeek(week)
-            .reduce((total, value) => total += value.calorias * value.quantidade, 0);
+            .reduce((total, value) => total += (value.calorias / 100) * value.quantidade, 0);
     }
 
     impledirDuplicacaoDieta(_: Dieta, __index: number, dietas: Dieta[]) {
