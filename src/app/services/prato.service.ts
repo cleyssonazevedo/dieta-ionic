@@ -155,6 +155,10 @@ export class PratoService {
         return this.getDataFromWeek(week);
     }
 
+    getData() {
+        return this.dietas;
+    }
+
     getCaloriasFromWeek(week?: Semana) {
         return this.getDataFromWeek(week)
             .reduce((total, value) => total += (value.calorias / 100) * value.quantidade, 0);

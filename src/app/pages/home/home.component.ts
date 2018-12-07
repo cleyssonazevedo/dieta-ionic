@@ -44,6 +44,10 @@ export class HomeComponent {
     return this.service.getDietas(this.getWeek());
   }
 
+  hasDietas() {
+    return this.service.getData();
+  }
+
   itemSelected(item: Dieta) {
     let data;
 

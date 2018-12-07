@@ -31,10 +31,21 @@
 </ion-content>
 
 <ion-content *ngIf="getData().length === 0">
-  <p class="h1" padding text-center>
-    Bem vindo ao Dieta mobile!
-  </p>
-  <p class="h2" padding text-center>
-    Este aplicativo permite ter um controle do consumo de calorias no dia, de acordo com os pratos.
-  </p>
+  <div *ngIf="hasDietas()">
+    <p class="h1" padding text-center>
+      Bem vindo ao Dieta mobile!
+    </p>
+    <p class="h2" padding text-center>
+      Você não tem nenhum prato cadastrado nesta(e) {{ getWeek() | week }}, cadastre para visualizar.
+    </p>
+  </div>
+
+  <div *ngIf="!hasDietas()">
+      <p class="h1" padding text-center>
+          Bem vindo ao Dieta mobile!
+        </p>
+        <p class="h2" padding text-center>
+          Este aplicativo permite ter um controle do consumo de calorias no dia, de acordo com os pratos.
+        </p>
+  </div>
 </ion-content>
